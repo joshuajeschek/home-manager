@@ -1,0 +1,68 @@
+#!/bin/bash
+
+
+count() {
+  source $( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/$1.env
+  count=$(find $HOME/.local/share/mail/$ADRESS/$2/new -type f | wc -l)
+  if [ "$count" -eq 0 ]; then
+    echo ''
+  else
+    echo "$3 $count"
+  fi
+}
+
+count-all() {
+  s4dinbox=$(count s4d INBOX '')
+  s4dgitlab=$(count s4d gitlab '')
+  personalinbox=$(count personal INBOX '')
+  tuminbox=$(count tum INBOX '󰑴')
+  parts=()
+  [[ -n $s4dinbox ]] && parts+=("$s4dinbox")
+  [[ -n $s4dgitlab ]] && parts+=("$s4dgitlab")
+  [[ -n $personalinbox ]] && parts+=("$personalinbox")
+  [[ -n $tuminbox ]] && parts+=("$tuminbox")
+  text=$(IFS=" "; echo "${parts[*]}")
+  jq -n --unbuffered --compact-output \
+    --arg text "$text" \
+    '{text: $text}'
+  touch -m $HOME/.config/waybar/style.cs
+}
+
+show() {
+  if [ -n "$(count-all | jq --raw-output '.text')" ]; then
+    echo '​'
+  else
+    echo ''
+  fi
+  touch -m $HOME/.config/waybar/style.cs
+}
+
+icon() {
+  if [ -n "$(count-all | jq --raw-output '.text')" ]; then
+    echo '󰇮'
+  else
+    echo ''
+  fi
+  touch -m $HOME/.config/waybar/style.cs
+}
+
+case $1 in
+  count)
+    count $2 $3 $4
+    ;;
+  count-all)
+    count-all
+    ;;
+  show)
+    show
+    ;;
+  icon)
+    icon
+    ;;
+  *)
+    echo "Usage: $0 {count|count-all|show} [shorthand] [mailbox] [icon]"
+    exit 1
+    ;;
+esac
+
+touch -m $HOME/.config/waybar/style.css
