@@ -3,7 +3,7 @@
 let
   getSimpleConfigs = dir:
     builtins.map (file: dir + ("/" + file))
-      (builtins.filter (file: builtins.match ".+\\.nix$" file != null)
+      (builtins.filter (file: builtins.match "^[^_].+\\.nix$" file != null)
         (builtins.attrNames (builtins.readDir dir)));
 
   getDirectoryConfigs = dir:
@@ -41,7 +41,6 @@ in
 
   home.file = {
     ".local/share/fonts".source = ./fonts;
-    ".config/mutt/mymuttrc".source = ./mymuttrc;
   };
 
   # Let Home Manager install and manage itself.

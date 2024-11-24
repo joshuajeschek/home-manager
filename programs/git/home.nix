@@ -13,6 +13,11 @@
       sync = "! git add . && git commit -m 'sync' && git pull --rebase && git push";
       shash = "rev-parse --short=9 HEAD";
     };
+    ignores = [
+      ".direnv/"
+      ".envrc"
+      "shell.nix"
+    ];
     includes = [
       {
         contents = {

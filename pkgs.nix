@@ -20,7 +20,6 @@ in
     typst
     spotify
     zen.packages.${builtins.currentSystem}.default
-    neomutt
     mutt-wizard
     pinentry-rofi
     stremio
@@ -34,7 +33,6 @@ in
     pass
     isync
     libnotify
-    thunderbird
     python312
     python312Packages.pip
     python312Packages.virtualenv
@@ -49,6 +47,7 @@ in
     vlc
     pamixer
     jq
+    evince
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [

@@ -30,9 +30,10 @@ in
       ];
       monitor = [
         "HDMI-A-1,1920x1080@60,0x0,1,transform,3"
-        "HDMI-A-2,1920x1080@60,0x0,1,transform,3"
-        "DP-1,3440x1440@100,1080x250,1"
         "DP-2,3440x1440@100,1080x250,1"
+        # landscape second screen
+        # "HDMI-A-1,1920x1080@60,0x0,1"
+        # "DP-2,3440x1440@100,1920x250,1"
       ];
       env = [
         "GTK_THEME,Adwaita:dark"
